@@ -1,4 +1,4 @@
-name: Publish package (${GITHUB_REF_NAME}) to the Maven Central Repository
+name: Publish package to the Maven Central Repository
 on:
   push:
     tags:
