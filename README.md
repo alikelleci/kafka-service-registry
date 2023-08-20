@@ -1,7 +1,4 @@
-## EasySourcing
-
-[Documentation](https://alikelleci.github.io/easysourcing)
-
+## Kafka Service Registry
 
 
 ## License
