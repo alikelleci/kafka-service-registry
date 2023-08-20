@@ -7,7 +7,7 @@
     <groupId>io.github.alikelleci</groupId>
     <artifactId>kafka-service-registry-parent</artifactId>
     <packaging>pom</packaging>
-    <version>0.0.1</version>
+    <version>0.0.1-SNAPSHOT</version>
 
     <name>kafka-service-registry-parent</name>
     <description>Kafka Service Registry</description>
