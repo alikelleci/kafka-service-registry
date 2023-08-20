@@ -218,5 +218,4 @@ public class KafkaServiceRegistryClient {
       return new KafkaServiceRegistryClient(producerConfig, consumerConfig, serviceId, requestTopic, replyTopic);
     }
   }
-
 }
