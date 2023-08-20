@@ -46,7 +46,7 @@ public class MessageTransformer implements ValueTransformerWithKey<String, Strin
           if (currentTimestamp - timestamp > maxAge) {
             String instanceId = "INSTANCE-" + number;
 
-            log.info("Unregistering client {} ({}) due expiration", clientId, instanceId);
+            log.info("Unregistering client due expiration (clientId={}, instanceId={})", clientId, instanceId);
             clients.delete(clientId);
 
             counter.decrementAndGet();
@@ -73,7 +73,7 @@ public class MessageTransformer implements ValueTransformerWithKey<String, Strin
       if (existing != null) {
         String instanceId = "INSTANCE-" + existing.value();
 
-        log.info("Client {} ({}) already registered", clientId, instanceId);
+        log.info("Client already registered (clientId={}, instanceId={})", clientId, instanceId);
         return instanceId;
       }
 
@@ -90,7 +90,7 @@ public class MessageTransformer implements ValueTransformerWithKey<String, Strin
       int number = getNextAvailable(ids);
       String instanceId = "INSTANCE-" + number;
 
-      log.info("Registering client {} ({})", clientId, instanceId);
+      log.info("Registering client (clientId={}, instanceId={})", clientId, instanceId);
       clients.put(clientId, ValueAndTimestamp.make(number, context.timestamp()));
 
       return instanceId;
@@ -101,7 +101,7 @@ public class MessageTransformer implements ValueTransformerWithKey<String, Strin
       if (existing != null) {
         String instanceId = "INSTANCE-" + existing.value();
 
-        log.info("Unregistering client {} ({})", clientId, instanceId);
+        log.info("Unregistering client (clientId={}, instanceId={})", clientId, instanceId);
         clients.delete(clientId);
       }
 

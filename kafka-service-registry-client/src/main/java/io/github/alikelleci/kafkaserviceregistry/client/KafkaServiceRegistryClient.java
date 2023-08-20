@@ -96,7 +96,7 @@ public class KafkaServiceRegistryClient {
     ProducerRecord<String, String> record = new ProducerRecord<>(requestTopic, serviceId, "register");
     record.headers().add("clientId", clientId.getBytes(StandardCharsets.UTF_8));
 
-    log.info("Registering instance {}", clientId);
+    log.info("Registering client (clientId={})", clientId);
     producer.send(record).get();
 
     return future;
@@ -107,7 +107,7 @@ public class KafkaServiceRegistryClient {
     ProducerRecord<String, String> record = new ProducerRecord<>(requestTopic, serviceId, "unregister");
     record.headers().add("clientId", clientId.getBytes(StandardCharsets.UTF_8));
 
-    log.info("Unregistering instance {}", clientId);
+    log.info("Unregistering client (clientId={})", clientId);
     producer.send(record).get();
   }
 
@@ -116,7 +116,7 @@ public class KafkaServiceRegistryClient {
     ProducerRecord<String, String> record = new ProducerRecord<>(requestTopic, serviceId, "ping");
     record.headers().add("clientId", clientId.getBytes(StandardCharsets.UTF_8));
 
-    log.debug("Pinging service registry {}", clientId);
+    log.debug("Pinging service registry (clientId={})", clientId);
     producer.send(record).get();
   }
 
@@ -150,16 +150,17 @@ public class KafkaServiceRegistryClient {
   @SneakyThrows
   private void onMessage(ConsumerRecords<String, String> consumerRecords) {
     for (ConsumerRecord<String, String> record : consumerRecords) {
-      String _clientId = Optional.of(record.headers().lastHeader("clientId"))
+      String clientId = Optional.of(record.headers().lastHeader("clientId"))
           .map(header -> new String(header.value(), StandardCharsets.UTF_8))
           .orElse(null);
 
-      if (!StringUtils.equals(this.clientId, _clientId)) {
+      if (!StringUtils.equals(this.clientId, clientId)) {
         return;
       }
 
       if (future != null) {
         future.complete(record.value());
+        log.info("Instance-id received (clientId={}, instanceId={})", clientId, record.value());
       }
     }
   }
