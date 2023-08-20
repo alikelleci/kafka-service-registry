@@ -1,4 +1,4 @@
-name: Pull request
+name: Publish package (${GITHUB_HEAD_REF}-SNAPSHOT) to the Maven Central Repository
 on:
   pull_request
 jobs:
