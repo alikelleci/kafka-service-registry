@@ -155,7 +155,7 @@ public class KafkaServiceRegistryClient {
           .orElse(null);
 
       if (!StringUtils.equals(this.clientId, clientId)) {
-        return;
+        continue;
       }
 
       if (future != null) {
