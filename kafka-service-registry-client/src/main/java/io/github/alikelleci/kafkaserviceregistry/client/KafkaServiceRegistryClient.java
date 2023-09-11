@@ -149,20 +149,21 @@ public class KafkaServiceRegistryClient {
 
   @SneakyThrows
   private void onMessage(ConsumerRecords<String, String> consumerRecords) {
-    for (ConsumerRecord<String, String> record : consumerRecords) {
+    consumerRecords.forEach(record -> {
       String clientId = Optional.of(record.headers().lastHeader("clientId"))
           .map(header -> new String(header.value(), StandardCharsets.UTF_8))
           .orElse(null);
 
       if (!StringUtils.equals(this.clientId, clientId)) {
-        continue;
+        return;
       }
 
       if (future != null) {
         future.complete(record.value());
         log.info("Instance-id received (clientId={}, instanceId={})", clientId, record.value());
       }
-    }
+
+    });
   }
 
   public static class KafkaServiceRegistryClientBuilder {
