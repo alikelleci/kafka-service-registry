@@ -48,7 +48,8 @@ public class KafkaServiceRegistryServer {
     builder.stream(requestTopic, Consumed.with(Serdes.String(), Serdes.String()))
         .transformValues(MessageTransformer::new, "clients")
         .filter((key, value) -> value != null)
-        .to(replyTopic, Produced.with(Serdes.String(), Serdes.String())
+        .to(replyTopic, Produced
+            .with(Serdes.String(), Serdes.String())
             .withStreamPartitioner((topic, key, value, numPartitions) -> 0));
 
     return builder.build();
